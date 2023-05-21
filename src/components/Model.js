@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { db, storage, useAuth } from '../firebase';
+import 'firebase/firestore';
+import 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 function Model() {
   const [nom, setNom] = useState('');
@@ -10,16 +15,65 @@ function Model() {
   const [avance, setAvance] = useState('');
   const [reste, setReste] = useState('');
   const [dateLivraison, setDateLivraison] = useState('');
-  const [image, setImage] = useState(null);
+  const [imgFile, setImgFile] = useState(new File([], ""));
+  const [imgUrl, setImgUrl] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    // Handle form submission here
-  }
+    try {
+        // Create a new document in the "users" collection with the form data
+        const docRef = await db.collection('clients').add({
+          nom,
+          prenom,
+          telephone,
+          email,
+          tissueReferance,
+          totalePrix,
+          avance,
+          reste,
+          dateLivraison,
+        });
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  }
+        if (imgFile) {
+            const imageRef = storage.ref(`${docRef.id}.png`);
+            await imageRef.put(imgFile);
+            const imgUrl = await imageRef.getDownloadURL();
+            setImgUrl(imgUrl);
+          }
+
+         // Upload the image to Cloud Storage
+    //     const imageRef = ref(storage, `${useAuth.user.uid}.png`);
+    //         uploadBytes(imageRef, imgFile)
+    //           .then(() => {
+    //             getDownloadURL(imageRef)
+    //               .then((url) => {
+    //                 setUrl(url);
+    //               })
+    //               .catch((error) => {
+    //                 console.log(error.message, "error getting the image url");
+    //               });
+    //             setImage(null);
+    //             console.log("paoziepaoziepo",useAuth.user.uid);
+    //             // navigate(`/profile?uid=${useAuth.user.uid}`);
+    //           })
+    //           .catch((error) => {
+    //             console.log(error.message, "error uploading the image");
+    //           });
+
+         alert('Data submitted successfully!');
+       } catch (error) {
+         console.log('Error submitting data:', error);
+         alert('An error occurred while submitting the data.');
+    }
+
+
+};
+
+const handleImageChange = async(e) => {
+    const file = e.target.files[0];
+    setImgFile(file);
+
+};
 
   return (
 
@@ -101,11 +155,11 @@ function Model() {
       <div class="form-group row col-7 mt-3">      
             <div class="input-group mb-3">
                 <label class="col-sm-2 col-form-label">Image :</label>
-            <input type="file" class="form-control-file"  onChange={handleImageChange}/> 
-            </div>
+            <input type="file" class="form-control-file" onChange={handleImageChange} /> 
+            </div>  
         </div>
       
-      <button type="submit" class="btn btn-outline-primary col-2 mt-2 btn-lg btn-block" onChange={handleSubmit}>Submit</button>
+      <button type="submit" class="btn btn-outline-primary col-2 mt-2 btn-lg btn-block">Submit</button>
   </div>
   </form>
   );
