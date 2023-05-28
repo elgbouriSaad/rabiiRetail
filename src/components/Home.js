@@ -38,6 +38,7 @@ function Home() {
               <th>Téléphone</th>
               <th>Email</th>
               <th>Tissue Référence</th>
+              <th>Libelle</th>
               <th>Total Prix</th>
               <th>Avance</th>
               <th>Reste</th>
@@ -52,12 +53,13 @@ function Home() {
                 <td>{client.telephone}</td>
                 <td>{client.email}</td>
                 <td>{client.tissueReferance}</td>
+                <td>{client.libelle}</td>
                 <td>{client.totalePrix}</td>
                 <td>{client.avance}</td>
                 <td>{client.reste}</td>
                 <td>{client.dateLivraison}</td>
                 <td>
-                <Link to={`/model/${client.id}`} className="btn btn-primary">
+                <Link to={`/profile/${client.id}`} className="btn btn-primary">
                   View Profile
                 </Link>
               </td>

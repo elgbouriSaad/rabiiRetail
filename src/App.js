@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from "./components/Login"
 import Model from "./components/Model"
 import Home from "./components/Home"
+import Profile from "./components/Profile"
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/model" element={<Model />} />
+        <Route path="/profile/:clientId" element={<Profile />} />
 
       </Routes>
     </BrowserRouter>

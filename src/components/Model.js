@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { db, storage, useAuth } from '../firebase';
+import { db, storage } from '../firebase';
 import 'firebase/firestore';
 import 'firebase/storage';
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 function Model() {
@@ -11,12 +10,14 @@ function Model() {
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
   const [tissueReferance, setTissueReferance] = useState('');
+  const [libelle, setLibelle] = useState('');
   const [totalePrix, setTotalePrix] = useState('');
   const [avance, setAvance] = useState('');
   const [reste, setReste] = useState('');
   const [dateLivraison, setDateLivraison] = useState('');
   const [imgFile, setImgFile] = useState(new File([], ""));
   const [imgUrl, setImgUrl] = useState(null);
+const [userData, setUserData] = useState([]);
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -28,6 +29,7 @@ function Model() {
           telephone,
           email,
           tissueReferance,
+          libelle,
           totalePrix,
           avance,
           reste,
@@ -54,7 +56,7 @@ function Model() {
     //               });
     //             setImage(null);
     //             console.log("paoziepaoziepo",useAuth.user.uid);
-    //             // navigate(`/profile?uid=${useAuth.user.uid}`);
+    //              navigate(`/profile?uid=${useAuth.user.uid}`);
     //           })
     //           .catch((error) => {
     //             console.log(error.message, "error uploading the image");
@@ -82,7 +84,7 @@ const handleImageChange = async(e) => {
         <div class="form-group row col-7 mt-3">
             <label class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" placeholder="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+              <input type="text" class="form-control" placeholder="nom" value={userData?.nom} onChange={(e) => setNom(e.target.value)} />
             </div>
         </div>
       
@@ -93,7 +95,7 @@ const handleImageChange = async(e) => {
             </div>
         </div>
       
-      <div class="form-group row col-7 mt-3">
+        <div class="form-group row col-7 mt-3">
             <label class="col-sm-2 col-form-label">Tel</label>
             <div class="col-sm-10">
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="tel" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
@@ -107,10 +109,16 @@ const handleImageChange = async(e) => {
             </div>
         </div>
       
-      <div class="form-group row col-7 mt-3">
+        <div class="form-group row col-7 mt-3">
             <label class="col-sm-2 col-form-label">Tissue référence:</label>
             <div class="col-sm-10">
             <input type="text" class="form-control"  placeholder="Tissue référence" value={tissueReferance} onChange={(e) => setTissueReferance(e.target.value)} />
+            </div>
+        </div>
+        <div class="form-group row col-7 mt-3">
+            <label class="col-sm-2 col-form-label">libelle Commande:</label>
+            <div class="col-sm-10">
+            <input type="text" class="form-control"  placeholder="libelle Commande" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
             </div>
         </div>
       
@@ -145,14 +153,14 @@ const handleImageChange = async(e) => {
             </div>
         </div>      
       
-      <div class="form-group row col-7 mt-3">      
+        <div class="form-group row col-7 mt-3">      
             <div class="input-group mb-3">
                 <label class="col-sm-2 col-form-label">Date livraison:</label>
             <input type="date" class="form-control" aria-label="Amount (to the nearest dollar)" value={dateLivraison} onChange={(e) => setDateLivraison(e.target.value)}/> 
             </div>
         </div> 
       
-      <div class="form-group row col-7 mt-3">      
+        <div class="form-group row col-7 mt-3">      
             <div class="input-group mb-3">
                 <label class="col-sm-2 col-form-label">Image :</label>
             <input type="file" class="form-control-file" onChange={handleImageChange} /> 
