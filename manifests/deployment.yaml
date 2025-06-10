@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabii-retail
+  labels:
+    app: rabii-retail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabii-retail
+  template:
+    metadata:
+      labels:
+        app: rabii-retail
+    spec:
+      containers:
+      - name: rabii-retail
+        image: k8s-minikube/kicbase:v0.0.47   # Use your DockerHub image here
+        ports:
+        - containerPort: 80
