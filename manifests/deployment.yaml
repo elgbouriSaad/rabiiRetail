@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: rabii-retail
-        image: k8s-minikube/kicbase:v0.0.47   # Use your DockerHub image here
+        image: rabii-retail:latest   # Use your DockerHub image here
         ports:
         - containerPort: 80
