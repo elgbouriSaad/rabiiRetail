@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: rabii-retail
-        image: rabii-retail:latest   # Use your DockerHub image here
+        image: elgbourisaad/rabii-retail:latest
         ports:
         - containerPort: 80
