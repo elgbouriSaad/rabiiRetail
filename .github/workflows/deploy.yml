@@ -35,3 +35,6 @@ jobs:
         git add manifests/deployment.yaml
         git commit -m "CI/CD: update image to latest"
         git push
+
+permissions:
+  contents: write
