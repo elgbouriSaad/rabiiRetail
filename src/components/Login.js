@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import {auth, db} from '../firebase';
+import { auth, db } from '../firebase';
 
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -10,28 +10,28 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
 
   // Login functionalities
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
-  
-  const login =async(e) => {
+
+  const login = async (e) => {
     e.preventDefault();
 
-   try{
-    const auth = getAuth();
-    const userCredential = signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;  
-    })
-    const uid = userCredential.user.uid; // Retrieve the UID after logging in
+    try {
+      const auth = getAuth();
+      const userCredential = signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+        })
+      const uid = userCredential.user.uid; // Retrieve the UID after logging in
 
-    
-    }catch(error){
+
+    } catch (error) {
       setError(true);
     }
-      
+
     navigate('/Model');
   };
 
@@ -44,12 +44,12 @@ export default function Login() {
   const Signup = (e) => {
     e.preventDefault();
     setLoader(true);
-    if (!username || !emailSignup || !passwordSignup ) {
+    if (!username || !emailSignup || !passwordSignup) {
       return alert("Please enter a username, email, and password");
     }
     if (passwordSignup !== confirmPassword) {
-     
-      return  alert("Passwords do not match. Please try again.");;
+
+      return alert("Passwords do not match. Please try again.");;
     }
 
     auth.createUserWithEmailAndPassword(emailSignup, passwordSignup)
@@ -67,9 +67,9 @@ export default function Login() {
           });
       })
       .catch((error) => {
-      console.log(error.message, "error creating user", error);
-    });
-    alert("Account crqsdqdqdqsdly ✅");   
+        console.log(error.message, "error creating user", error);
+      });
+    alert("Account crqsdqdqdqsdly ✅");
   };
 
 
@@ -83,7 +83,7 @@ export default function Login() {
   if (authMode === "signin") {
     return (
       <div className="Auth-form-container">
-        <form  onSubmit={login} className="Auth-form">
+        <form onSubmit={login} className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Login</h3>
             <div className="text-center">
